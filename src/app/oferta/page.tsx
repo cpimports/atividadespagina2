@@ -32,7 +32,7 @@ const FaqSection = dynamic(() => import('@/components/sections/FaqSection'), {
 
 export default function OfertaPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-background fade-in-load">
+    <div className="flex flex-col min-h-screen bg-white">
       <main className="flex-grow">
         <HeroSection />
         <AboutSection />

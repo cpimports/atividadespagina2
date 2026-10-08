@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';
-import { Inter, Alegreya, Merriweather } from 'next/font/google';
+import { Inter, Alegreya, Nunito } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
@@ -19,12 +19,11 @@ const alegreya = Alegreya({
   variable: '--font-alegreya',
 });
 
-const merriweather = Merriweather({
+const nunito = Nunito({
   subsets: ['latin'],
   display: 'swap',
-  weight: '700',
-  style: 'italic',
-  variable: '--font-merriweather',
+  weight: ['700', '800', '900'],
+  variable: '--font-display',
 });
 
 export const metadata: Metadata = {
@@ -38,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${alegreya.variable} ${merriweather.variable}`} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${inter.variable} ${alegreya.variable} ${nunito.variable}`} suppressHydrationWarning>
       <head>
         <link rel="preload" href="https://scripts.converteai.net/f304b502-422a-4d15-8f6c-5e42de7baf1b/players/68a677e85a4844a26844462d/v4/embed.html" />
         <script dangerouslySetInnerHTML={{ __html: `!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);` }} />

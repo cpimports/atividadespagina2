@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 // A simple in-memory store for the shared counter state
-let countState = 10563; // Initial value
+let countState = 10621; // Initial value requested by user
 const listeners = new Set<(count: number) => void>();
 
 // Function to update the state and notify all listeners

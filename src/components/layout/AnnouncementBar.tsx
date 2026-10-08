@@ -1,31 +1,19 @@
-
 'use client';
 
 export default function AnnouncementBar() {
   return (
     <>
-      <div
-        className="text-center font-semibold fixed top-0 left-0 right-0 z-50 flex items-center justify-center shadow-md text-sm animate-brilho-pulse"
-        style={{
-          backgroundColor: '#B3D4FC', // Soft blue background
-          color: '#1F1F60',
-          height: '55px',
-          padding: '10px 20px',
-          lineHeight: '1.4',
-        }}
-      >
+      <div className="fixed left-0 right-0 top-0 z-50 flex h-[44px] items-center justify-center bg-ink px-4 text-center text-xs text-white shadow-md sm:text-sm">
         <p>
-          <span
-            aria-hidden="true"
-            className="mr-2"
-          >
+          <span aria-hidden="true" className="mr-1.5">
             🎁
           </span>
-          <strong>OFERTA DE LANÇAMENTO:</strong> 80% de desconto só hoje no <strong>Kit Gêniozinho em Ação!</strong>
+          <strong className="text-marker">OFERTA DE LANÇAMENTO:</strong> 80% de desconto só hoje no{' '}
+          <strong>Kit Gêniozinho em Ação!</strong>
         </p>
       </div>
-      {/* Add a placeholder to push down the content */}
-      <div style={{ height: '55px' }} />
+      {/* Espaço reservado para a barra fixa */}
+      <div aria-hidden="true" className="h-[44px]" />
     </>
   );
 }

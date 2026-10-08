@@ -35,16 +35,16 @@ export default function SocialProofNotification() {
     setIsVisible(true);
     incrementCount(); // Incrementa o contador global
 
-    // Fica visível por 10 segundos e depois some
+    // Fica visível por 6 segundos e depois some suavemente
     setTimeout(() => {
       setIsVisible(false);
-    }, 10000);
+    }, 6000);
   }, []);
 
   useEffect(() => {
     // Moved the entire timer logic into useEffect to ensure it only runs on the client.
     const initialTimeout = setTimeout(showRandomNotification, 5000);
-    const interval = setInterval(showRandomNotification, 15000);
+    const interval = setInterval(showRandomNotification, 16000);
 
     return () => {
       clearTimeout(initialTimeout);
@@ -59,15 +59,18 @@ export default function SocialProofNotification() {
   return (
     <div
       key={notification.key}
-      className={`fixed bottom-5 left-5 z-50 flex items-center gap-3 rounded-lg bg-green-500 px-4 py-3 text-white shadow-lg transition-all duration-500 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+      className={`fixed bottom-5 left-5 z-50 flex items-center gap-3 rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-xs px-4 py-2.5 text-ink shadow-lg transition-all duration-500 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'pointer-events-none opacity-0 translate-y-4'
       }`}
     >
-      <ShoppingCart className="h-6 w-6" />
+      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 shadow-2xs">
+        <ShoppingCart className="h-4 w-4" />
+      </span>
       <div>
-        <p className="text-sm">
-          <span className="font-bold">{notification.name}</span> acabou de comprar!
+        <p className="text-xs sm:text-sm font-semibold text-ink">
+          <span className="font-extrabold">{notification.name}</span> acabou de comprar!
         </p>
+        <p className="text-[11px] text-ink-soft">{notification.location} · Agora mesmo</p>
       </div>
     </div>
   );

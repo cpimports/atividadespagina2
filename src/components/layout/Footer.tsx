@@ -1,35 +1,20 @@
-'use client';
-
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // Using Image for the logo
+import Image from 'next/image';
 
 export default function Footer() {
-  const [currentYear, setYear] = useState(new Date().getFullYear());
-
-  useEffect(() => {
-    // This effect can be used for other client-side logic if needed,
-    // but initializing the year in useState is sufficient and safer for SSR/SSG.
-  }, []);
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border/40 py-8 bg-muted/50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-muted-foreground">
-        <div className="flex flex-col items-center justify-center space-y-4">
-          <Link href="/" className="flex flex-col items-center space-y-2">
-            <Image
-              src="/images/logo.webp" 
-              alt="Logo Gêniozinho em Ação"
-              data-ai-hint="logo abstract playful"
-              width={64} 
-              height={64}
-              className="rounded-md"
-            />
-            <span className="font-headline text-lg font-semibold text-primary">Gêniozinho em Ação</span>
-          </Link>
-          <p>&copy; {currentYear} Gêniozinho em Ação. Todos os direitos reservados.</p>
-          <p>Transformando o aprendizado com atividades lúdicas e eficazes!</p>
-        </div>
+    <footer className="bg-ink py-10 text-slate-300">
+      <div className="container mx-auto flex flex-col items-center gap-4 px-4 text-center text-sm sm:px-6 lg:px-8">
+        <Link href="/" className="flex items-center gap-3">
+          <span className="rounded-2xl bg-white p-2">
+            <Image src="/images/logo.webp" alt="Logo Gêniozinho em Ação" width={44} height={37} className="h-auto w-11" />
+          </span>
+          <span className="font-display text-lg font-extrabold text-white">Gêniozinho em Ação</span>
+        </Link>
+        <p>Transformando o aprendizado com atividades lúdicas e eficazes!</p>
+        <p className="text-xs text-slate-400">&copy; {currentYear} Gêniozinho em Ação. Todos os direitos reservados.</p>
       </div>
     </footer>
   );

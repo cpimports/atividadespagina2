@@ -124,6 +124,24 @@
 }
 
 @layer utilities {
+  /* Landing: fundo de "papel quadriculado" feito só com CSS (sem imagem) */
+  .bg-paper-grid {
+    background-color: #FFFBF3;
+    background-image:
+      linear-gradient(rgba(27, 42, 74, 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(27, 42, 74, 0.055) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-pulse-yellow-cta,
+    .animate-brilho-pulse,
+    .animate-cta-shimmer,
+    .animate-cta-breath,
+    .animate-arrow-wiggle,
+    .animate-pulse-gentle {
+      animation: none !important;
+    }
+  }
   .animate-brilho-pulse {
     animation: brilhoPulse 3s infinite ease-in-out;
   }
@@ -134,5 +152,38 @@
     50% {
       box-shadow: 0 0 20px rgba(102, 178, 255, 0.6);
     }
+  }
+
+  .animate-pulse-gentle {
+    animation: pulseGentle 2.6s ease-in-out infinite;
+  }
+  @keyframes pulseGentle {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.035);
+    }
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  .animate-marquee {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: marquee 45s linear infinite;
+  }
+
+  .animate-marquee:hover,
+  .animate-marquee:active {
+    animation-play-state: paused;
   }
 }

@@ -13,10 +13,23 @@ export default {
       fontFamily: {
         body: ['var(--font-inter)', 'sans-serif'],
         headline: ['var(--font-alegreya)', 'serif'],
-        merriweather: ['var(--font-merriweather)', 'serif'],
+        display: ['var(--font-display)', 'var(--font-inter)', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
+        // Landing page palette ("caderno do professor")
+        ink: {
+          DEFAULT: '#1B2A4A',
+          soft: '#3A4B6E',
+          50: '#EEF2F9',
+        },
+        paper: '#FFFBF3',
+        marker: {
+          DEFAULT: '#FACC15',
+          dark: '#CA9A06',
+          light: '#FEF3C7',
+        },
+        coral: '#F0705A',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -123,6 +136,47 @@ export default {
             '80%':  { opacity: '0.6', backgroundColor: '#ff99cc' },
             '100%': { opacity: '1', backgroundColor: '#ff3333' },
         },
+        'cta-shimmer': {
+          '0%': { transform: 'translateX(-150%) skewX(-20deg)', opacity: '0' },
+          '10%': { opacity: '1' },
+          '25%': { transform: 'translateX(250%) skewX(-20deg)', opacity: '0' },
+          '100%': { transform: 'translateX(250%) skewX(-20deg)', opacity: '0' },
+        },
+        'cta-pulse-gentle': {
+          '0%, 100%': {
+            transform: 'scale(1)',
+            boxShadow: '0 4px 0 0 #1B2A4A, 0 4px 14px 0 rgba(250, 204, 21, 0.35)',
+          },
+          '50%': {
+            transform: 'scale(1.025)',
+            boxShadow: '0 4px 0 0 #1B2A4A, 0 8px 24px 2px rgba(250, 204, 21, 0.6)',
+          },
+        },
+        'cta-gleam': {
+          '0%': {
+            transform: 'translateX(-130%) skewX(-25deg)',
+            opacity: '0',
+          },
+          '15%': {
+            opacity: '0.85',
+          },
+          '30%': {
+            transform: 'translateX(260%) skewX(-25deg)',
+            opacity: '0',
+          },
+          '100%': {
+            transform: 'translateX(260%) skewX(-25deg)',
+            opacity: '0',
+          },
+        },
+        'cta-glow': {
+          '0%, 100%': {
+            boxShadow: '0 4px 0 0 #1B2A4A, 0 6px 16px -2px rgba(250, 204, 21, 0.35)',
+          },
+          '50%': {
+            boxShadow: '0 4px 0 0 #1B2A4A, 0 10px 24px -2px rgba(250, 204, 21, 0.55)',
+          },
+        },
         'pulse-yellow-cta': {
           '0%, 100%': {
             transform: 'scale(1)',
@@ -143,6 +197,10 @@ export default {
         },
       },
       animation: {
+        'cta-pulse-gentle': 'cta-pulse-gentle 2.4s ease-in-out infinite',
+        'cta-gleam': 'cta-gleam 3.6s ease-in-out infinite',
+        'cta-shimmer': 'cta-shimmer 6s ease-in-out infinite',
+        'cta-glow': 'cta-glow 4s ease-in-out infinite',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in-slow': 'fadeIn 1s ease-out',

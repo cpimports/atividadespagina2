@@ -1,12 +1,8 @@
-'use client';
-
-import React, { useRef } from 'react';
-import Link from 'next/link';
+import React from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { ShieldCheck, Lock, CreditCard, CheckCircle2 } from 'lucide-react';
-import { useProgress } from '@/hooks/useProgress';
-import { Progress } from '@/components/ui/progress';
+import { ShieldCheck, Lock, CreditCard, Check, Gift, Zap, Clock } from 'lucide-react';
+import { CtaButton, SectionHeading, BottomWaveDivider } from '@/components/landing/ui';
+import ScarcityBar from '@/components/landing/ScarcityBar';
 
 interface OfferSectionProps {
   price?: string;
@@ -14,184 +10,229 @@ interface OfferSectionProps {
   checkoutUrl?: string;
 }
 
-export default function OfferSection({ 
-  price = "19,90", 
-  installmentText = "ou 4x de R$5,77",
-  checkoutUrl = "https://pay.cakto.com.br/3bbibtq"
+const mainItems = [
+  '+1500 Atividades Lúdicas e Adaptadas para Autistas',
+  'Acesso Imediato e Vitalício à Plataforma com todo Material',
+  'Tranquilidade e Suporte para Você',
+];
+
+const bonusItems = [
+  'Mega Pacote de +1000 Moldes de EVA',
+  'Kit de Medalhas de Reconhecimento',
+  '+10 Jogos Inclusivos e Testados',
+  'Guia de Adaptação de Atividades para Autistas',
+];
+
+const lastBenefit = '+ 8 SUPER BÔNUS';
+
+const secureItems = [
+  { icon: ShieldCheck, label: 'Compra Segura' },
+  { icon: Lock, label: 'Privacidade' },
+  { icon: CreditCard, label: 'Pagamento' },
+];
+
+const AnimatedClock = ({ className = 'h-5 w-5' }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    {/* Caixa externa do relógio fixa */}
+    <circle cx="12" cy="12" r="9.5" />
+    {/* Eixo central fixo */}
+    <circle cx="12" cy="12" r="1.2" fill="currentColor" />
+    {/* Ponteiro das horas */}
+    <line
+      x1="12"
+      y1="12"
+      x2="12"
+      y2="7.5"
+      strokeWidth="2.2"
+      className="[transform-origin:12px_12px] animate-[spin_12s_linear_infinite]"
+    />
+    {/* Ponteiro dos minutos girando no sentido horário */}
+    <line
+      x1="12"
+      y1="12"
+      x2="12"
+      y2="5"
+      strokeWidth="1.8"
+      className="[transform-origin:12px_12px] animate-[spin_3s_linear_infinite]"
+    />
+  </svg>
+);
+
+export default function OfferSection({
+  price = '19,90',
+  installmentText = 'ou 4x de R$5,77',
+  checkoutUrl = 'https://pay.cakto.com.br/3bbibtq',
 }: OfferSectionProps) {
-
-  const benefits = [
-    "+1500 Atividades Lúdicas e Adaptadas para Autistas",
-    "Acesso Imediato e Vitalício à Plataforma com todo Material",
-    "Tranquilidade e Suporte para Você",
-    "SUPER BÔNUS 1: Mega Pacote de +1000 Moldes de EVA",
-    "SUPER BÔNUS 2: Kit de Medalhas de Reconhecimento",
-    "SUPER BÔNUS 3: +10 Jogos Inclusivos e Testados",
-    "SUPER BÔNUS 4: Guia de Adaptação de Atividades para Autistas"
-  ];
-
-  const lastBenefit = "+ 8 SUPER BÔNUS";
-  const progressRef = useRef<HTMLDivElement>(null);
-  const progress = useProgress(progressRef);
-
   return (
-    <section
-      id="oferta-especial"
-      className="py-16 md:py-24 bg-white relative"
-    >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        <div className="max-w-4xl mx-auto mb-12">
-            <div className="shadow-xl bg-card/10 backdrop-blur-md border border-gray-200 rounded-lg">
-                <div className="p-6 md:p-8 flex flex-col md:flex-row items-center text-center md:text-left gap-6 text-gray-800">
-                    <div className="flex-shrink-0">
-                        <Image
-                            src="/images/guarantee-seal.webp"
-                            alt="Selo de Garantia de 7 dias"
-                            data-ai-hint="gold shield guarantee"
-                            width={150}
-                            height={150}
-                            className="mx-auto"
-                            loading="lazy"
-                            sizes="150px"
-                        />
-                    </div>
-                    <div className="flex-grow">
-                        <h3 className="font-merriweather text-2xl font-bold text-yellow-400 drop-shadow-md mb-2">Sua Satisfação Garantida ou Seu Dinheiro de Volta!</h3>
-                        <p className="text-gray-600 mb-4">Aproveite a compra sem risco. Se em até 7 dias você sentir que o kit não é para você, devolvemos seu dinheiro sem perguntas.</p>
-                         <div className="flex items-center justify-center md:justify-start gap-4 text-xs text-gray-500 font-semibold">
-                            <div className="flex items-center gap-1.5">
-                                <ShieldCheck className="h-4 w-4 text-green-600" />
-                                <span>Compra Segura</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <Lock className="h-4 w-4 text-green-600" />
-                                <span>Privacidade</span>
-                            </div>
-                             <div className="flex items-center gap-1.5">
-                                <CreditCard className="h-4 w-4 text-green-600" />
-                                <span>Qualidade</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section id="oferta-especial" className="bg-paper-grid pt-16 md:pt-24 pb-0">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          title={
+            <span className="flex flex-col items-center gap-2 sm:gap-3">
+              <span className="inline-flex items-center gap-2.5 rounded-full border-2 border-coral/30 bg-coral/10 px-4 py-1.5 text-sm font-black uppercase tracking-wider text-coral shadow-2xs sm:px-5 sm:py-2 sm:text-base md:text-lg">
+                <AnimatedClock className="h-5 w-5 shrink-0 text-coral sm:h-6 sm:w-6" />
+                Última Chance
+              </span>
+              <span className="text-xl font-extrabold leading-snug text-ink sm:text-2xl md:text-[1.75rem]">
+                Condição Especial por Tempo Limitado
+              </span>
+            </span>
+          }
+        />
 
-        <div className="text-center mb-12">
-          <h2 className="font-merriweather text-3xl sm:text-4xl font-semibold text-primary">
-            Transforme o Aprendizado das Crianças Autistas com um Só Clique!
-          </h2>
-        </div>
-        
-        <div className="max-w-4xl mx-auto bg-blue-800 rounded-2xl shadow-2xl overflow-hidden border-2 border-blue-900 relative">
-          
-          <div className="absolute inset-0 pointer-events-none opacity-10">
-            <span className="absolute top-[10%] left-[5%] text-4xl -rotate-12">🧩</span>
-            <span className="absolute bottom-[5%] right-[8%] text-6xl rotate-45">🧩</span>
-            <span className="absolute top-[15%] right-[10%] text-5xl rotate-6">🧩</span>
-            <span className="absolute bottom-[20%] left-[12%] text-3xl -rotate-45">🧩</span>
-            <span className="absolute top-[50%] left-[2%] text-6xl rotate-20">🧩</span>
-            <span className="absolute top-[40%] right-[5%] text-4xl -rotate-12">🧩</span>
-            <span className="absolute bottom-[10%] left-[25%] text-5xl rotate-12">🧩</span>
-            <span className="absolute top-[80%] right-[15%] text-3xl -rotate-20">🧩</span>
+        {/* Card Escuro Unificado Premium */}
+        <div className="relative mx-auto mt-6 max-w-5xl overflow-hidden rounded-[2.5rem] border-2 border-marker/40 bg-ink shadow-[0_20px_50px_rgba(27,42,74,0.35)]">
+          {/* Badge superior de destaque */}
+          <div className="absolute right-6 top-0 hidden -translate-y-1/2 rounded-full border border-marker/60 bg-gradient-to-r from-marker via-amber-400 to-marker px-4 py-1.5 text-xs font-black uppercase tracking-wider text-ink shadow-lg sm:block">
+            ⚡ Desconto Ativo Agora
           </div>
 
-          <div className="p-1 md:p-2 relative z-10">
-            <div className="text-center pt-8">
-                <Image 
+          <div className="grid grid-cols-1 gap-8 p-6 sm:p-10 lg:grid-cols-12 lg:gap-10 lg:p-12">
+            {/* Lado Esquerdo: O que está incluso (Design Dark Premium) */}
+            <div className="lg:col-span-7">
+              {/* Header do Produto */}
+              <div className="flex flex-col items-center border-b border-white/10 pb-6 text-center">
+                <div className="relative mb-3.5 overflow-hidden rounded-2xl border-2 border-white/20 bg-white/10 p-2.5 shadow-lg">
+                  <Image
                     src="/images/offer-mockup.webp"
-                    alt="Kit Gêniozinho em Ação"
-                    data-ai-hint="product bundle mockup"
-                    width={150}
-                    height={113}
-                    className="mx-auto mb-4 relative z-10"
+                    alt="Kit de Atividades para Autistas + Bônus"
+                    width={110}
+                    height={85}
+                    className="h-auto w-24 object-contain drop-shadow-lg sm:w-28"
                     loading="lazy"
-                    sizes="150px"
-                />
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-extrabold uppercase text-white tracking-wider drop-shadow-lg" style={{ textShadow: '0 4px 8px rgba(253, 224, 71, 0.4)' }}>
-                    SUPER OFERTA
-                </h2>
-                <div className="inline-block bg-red-700 rounded-xl shadow-xl py-2 px-6 mt-4">
-                  <p className="text-2xl md:text-3xl font-bold text-white tracking-wide" style={{ textShadow: '0 2px 5px rgba(0, 0, 0, 0.4)' }}>
-                      SOMENTE HOJE
+                  />
+                </div>
+                <h3 className="font-display text-2xl font-black leading-tight tracking-tight text-marker drop-shadow-[0_2px_12px_rgba(250,204,21,0.3)] sm:text-3xl md:text-[1.95rem]">
+                  Kit de Atividades para Autistas + Bônus
+                </h3>
+              </div>
+
+              {/* Itens Principais Unificados em Bloco Único */}
+              <div className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
+                <ul className="divide-y divide-white/10">
+                  {mainItems.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-center gap-3 py-3 first:pt-0 last:pb-0"
+                    >
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white shadow-2xs">
+                        <Check className="h-3 w-3 stroke-[3]" aria-hidden="true" />
+                      </span>
+                      <span className="text-xs font-bold leading-snug text-slate-100 sm:text-sm">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Caixa de Bônus em Destaque Dourado */}
+              <div className="mt-6 rounded-2xl border-2 border-marker/40 bg-gradient-to-br from-amber-500/10 via-white/5 to-transparent p-4 sm:p-5 backdrop-blur-xs">
+                <div className="flex items-center justify-center gap-2 border-b border-white/10 pb-3 text-center">
+                  <Gift className="h-4 w-4 text-marker" aria-hidden="true" />
+                  <span className="text-xs font-black uppercase tracking-wider text-marker">
+                    Super Bônus Inclusos
+                  </span>
+                </div>
+                <ul className="mt-3 space-y-2">
+                  {bonusItems.map((item, i) => (
+                    <li key={item} className="flex items-center gap-2.5 text-xs text-slate-200 sm:text-sm">
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-marker/30 bg-marker/20 font-mono text-[11px] font-black text-marker">
+                        {i + 1}
+                      </span>
+                      <span className="font-semibold">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-3.5 border-t border-white/10 pt-3 text-center">
+                  <p className="font-display text-xs font-black uppercase tracking-wide text-coral sm:text-sm">
+                    🎁 {lastBenefit} LIBERADOS SOMENTE HOJE!
                   </p>
                 </div>
-            </div>
-            
-            <div className="p-6 md:p-8 text-white">
-              <ul className="space-y-4 mb-8">
-                {benefits.map((benefit, index) => (
-                  <li key={index} className="flex items-start">
-                    {/* SVG check icon instead of 355KB external PNG */}
-                    <CheckCircle2 className="h-6 w-6 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
-                    <span className="text-base md:text-lg">{benefit}</span>
-                  </li>
-                ))}
-                 <li className="flex items-start justify-center font-bold text-sky-300">
-                    <span className="text-base md:text-lg">{lastBenefit}</span>
-                  </li>
-              </ul>
-
-              <div className="text-center bg-black/20 backdrop-blur-sm p-6 rounded-lg border border-gray-700 shadow-inner space-y-4 my-8">
-                  <p className="text-lg uppercase tracking-wider font-semibold text-white">OFERTA IRRESISTÍVEL - ACESSO COMPLETO POR:</p>
-                  <div className="mb-2">
-                    <span className="text-xl text-gray-400 line-through">De R$97,00</span>
-                  </div>
-                  <div className="my-2 flex items-baseline justify-center gap-2">
-                    <span className="text-6xl sm:text-7xl font-extrabold text-yellow-400" style={{ textShadow: '0 3px 8px rgba(253, 224, 71, 0.2)' }}>R${price}</span>
-                  </div>
-                  {installmentText && <div className="text-lg text-gray-200 font-semibold">{installmentText}</div>}
-                  <p className="text-sm text-gray-300 font-medium">(Pagamento Único. Acesso IMEDIATO e VITALÍCIO!)</p>
               </div>
-              
-              <div className="text-center mt-8">
-                <Button
-                  size="lg"
-                  asChild
-                  className="w-full sm:w-auto shadow-xl hover:shadow-2xl bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-lg transition-all transform hover:scale-105 animate-pulse-yellow-cta text-base sm:text-lg md:text-xl py-4 px-6 md:py-6 md:px-10 text-center"
-                >
-                  <Link id="btn-comprar" href={checkoutUrl}>
-                    COMPRAR KIT COM DESCONTO!
-                  </Link>
-                </Button>
-                
-                <div className="mt-8 text-center text-xs text-gray-300">
-                    <p className='mb-3'>Compra 100% segura e satisfação que transforma. Métodos de pagamento aceitos:</p>
-                    <div className="flex justify-center items-center gap-4 text-sm font-semibold">
-                        <div className="flex items-center gap-1.5">
-                            <ShieldCheck className="h-5 w-5 text-green-400" />
-                            <span>Compra Segura</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                            <Lock className="h-5 w-5 text-green-400" />
-                            <span>Privacidade</span>
-                        </div>
-                         <div className="flex items-center gap-1.5">
-                            <CreditCard className="h-5 w-5 text-green-400" />
-                            <span>Pagamento</span>
-                        </div>
-                    </div>
-                </div>
+            </div>
+
+            {/* Lado Direito: Caixa de Preço e Fechamento */}
+            <div className="flex flex-col justify-center rounded-3xl border border-white/15 bg-white/5 p-6 text-center shadow-inner sm:p-8 lg:col-span-5">
+              <span className="mb-4 inline-block self-center rounded-full border border-white/10 bg-white/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
+                Acesso Completo
+              </span>
+              <p className="text-sm font-semibold text-slate-400 line-through sm:text-base">
+                De R$ 97,00 por apenas
+              </p>
+              <div className="mt-2 flex items-baseline justify-center gap-1 font-display">
+                <span className="text-2xl font-black text-marker sm:text-3xl">R$</span>
+                <span className="text-6xl font-black leading-none tracking-tight text-marker sm:text-7xl">
+                  {price}
+                </span>
+              </div>
+              {installmentText && (
+                <p className="mt-2 text-sm font-bold text-slate-200 sm:text-base">
+                  {installmentText}
+                </p>
+              )}
+              <p className="mt-3 flex items-center justify-center gap-1.5 text-xs font-semibold text-emerald-400 sm:text-sm">
+                <Zap className="h-4 w-4 fill-emerald-400" aria-hidden="true" />
+                Pagamento Único · Acesso Vitalício
+              </p>
+
+              <CtaButton
+                id="btn-comprar"
+                href={checkoutUrl}
+                size="lg"
+                pulse
+                className="mt-6 w-full"
+              >
+                Garantir meu kit com desconto!
+              </CtaButton>
+
+              <div className="mt-6 flex justify-center border-t border-white/10 pt-5">
+                <Image
+                  src="/images/security-badges.webp"
+                  alt="Compra Segura, Privacidade Protegida, Pagamento Seguro"
+                  width={280}
+                  height={42}
+                  className="h-auto w-52 sm:w-60 object-contain opacity-90"
+                  loading="lazy"
+                />
               </div>
             </div>
           </div>
         </div>
 
-        <div ref={progressRef} className="mt-16 max-w-2xl mx-auto text-center">
-            <p className="font-bold text-gray-800 mb-2">Atenção! Essa oferta exclusiva vai acabar em instantes. Não perca a chance de garantir tudo agora!</p>
-          <div className="bg-yellow-100/70 border-2 border-yellow-300 rounded-lg p-4 shadow-md">
-            <p className="font-semibold text-yellow-900 mb-2">
-                ⏳ {Math.floor(progress)}% dos kits promocionais já foram vendidos!
-            </p>
-            <Progress value={progress} className="w-full h-3 bg-gray-200 [&>div]:bg-yellow-400" />
-            <p className="text-sm text-yellow-800 mt-2 font-medium">
-                150 kits pelo valor promocional
+        {/* Garantia */}
+        <div className="mx-auto mt-14 flex max-w-3xl flex-col items-center gap-6 rounded-3xl border-2 border-emerald-300/80 bg-gradient-to-br from-white via-emerald-50/50 to-emerald-100/40 p-6 text-center shadow-xl shadow-emerald-600/10 sm:flex-row sm:p-8 sm:text-left">
+          <Image
+            src="/images/guarantee-seal.webp"
+            alt="Selo de Garantia de 7 dias"
+            width={120}
+            height={120}
+            className="h-auto w-24 shrink-0 sm:w-28"
+            loading="lazy"
+          />
+          <div>
+            <h3 className="font-display text-xl font-black text-yellow-500 sm:text-2xl">
+              Sua Satisfação Garantida ou Seu Dinheiro de Volta!
+            </h3>
+            <p className="mt-2 text-ink-soft">
+              Aproveite a compra sem risco. Se em até 7 dias você sentir que o kit não é para você, devolvemos seu
+              dinheiro sem perguntas.
             </p>
           </div>
         </div>
 
+        <ScarcityBar className="mt-12" />
       </div>
+      <BottomWaveDivider className="text-slate-50 mt-12 md:mt-16" />
     </section>
   );
 }

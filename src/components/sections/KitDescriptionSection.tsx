@@ -1,226 +1,130 @@
-
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  type CarouselApi,
-} from "@/components/ui/carousel";
-import { Card, CardContent } from "@/components/ui/card";
-import { cn } from '@/lib/utils';
+import { CtaButton, SectionHeading, BottomWaveDivider } from '@/components/landing/ui';
+import useEmblaCarousel from 'embla-carousel-react';
+import AutoScroll from 'embla-carousel-auto-scroll';
+import { Home, School, Stethoscope } from 'lucide-react';
 
-const carouselImages: { src: string; alt: string; hint: string }[] = [
-    { src: '/images/activity-6.webp', alt: 'Atividade de Números', hint: 'numbers counting' },
-    { src: '/images/activity-1.webp', alt: 'Atividade de Alfabetização', hint: 'alphabet learning' },
-    { src: '/images/activity-2.webp', alt: 'Atividade de Coordenação Motora', hint: 'motor skills' },
-    { src: '/images/activity-3.webp', alt: 'Atividade de Raciocínio Lógico', hint: 'logic puzzle' },
-    { src: '/images/activity-4.webp', alt: 'Atividade de Vogais', hint: 'vowels worksheet' },
-    { src: '/images/activity-5.webp', alt: 'Atividade de Formas Geométricas', hint: 'geometric shapes' },
-    { src: '/images/activity-7.webp', alt: 'Atividade de Cores', hint: 'colors activity' },
-    { src: '/images/activity-8.webp', alt: 'Atividade de Recorte e Colagem', hint: 'cut and paste' },
-    { src: '/images/activity-9.webp', alt: 'Atividade Sensorial', hint: 'sensory play' },
-    { src: '/images/activity-10.webp', alt: 'Atividade de Leitura', hint: 'reading practice' },
-    { src: '/images/activity-11.webp', alt: 'Atividade de Escrita', hint: 'writing practice' },
-    { src: '/images/activity-12.webp', alt: 'Atividade de Emoções', hint: 'emotions chart' },
-    { src: '/images/activity-13.webp', alt: 'Quebra-cabeça', hint: 'puzzle game' },
+const activityImages = [
+  '/images/activity-6.webp',
+  '/images/activity-1.webp',
+  '/images/activity-2.webp',
+  '/images/activity-3.webp',
+  '/images/activity-4.webp',
+  '/images/activity-5.webp',
+  '/images/activity-7.webp',
+  '/images/activity-8.webp',
+  '/images/activity-9.webp',
+  '/images/activity-10.webp',
+  '/images/activity-11.webp',
+  '/images/activity-12.webp',
+  '/images/activity-13.webp',
+];
+
+const places = [
+  { icon: School, label: 'Na escola' },
+  { icon: Home, label: 'Em casa' },
+  { icon: Stethoscope, label: 'No consultório' },
 ];
 
 export default function KitDescriptionSection() {
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const hasAnimated = useRef(false);
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap());
-
-    const onSelect = () => {
-      setCurrent(api.selectedScrollSnap());
-    };
-
-    api.on("select", onSelect);
-
-    return () => {
-      api.off("select", onSelect);
-    };
-  }, [api]);
-
-  const handleDotClick = useCallback((index: number) => {
-    api?.scrollTo(index);
-  }, [api]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry.isIntersecting && !hasAnimated.current && api) {
-          hasAnimated.current = true;
-          observer.disconnect();
-
-          setTimeout(() => {
-            if (api.canScrollNext()) {
-              api.scrollNext();
-            }
-          }, 2000); 
-        }
-      },
-      { threshold: 0.5 } // Trigger when 50% of the element is visible
-    );
-
-    if (carouselRef.current) {
-      observer.observe(carouselRef.current);
-    }
-
-    return () => {
-      if (carouselRef.current) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        observer.unobserve(carouselRef.current);
-      }
-      observer.disconnect();
-    };
-  }, [api]);
-
+  const [emblaRef] = useEmblaCarousel(
+    {
+      loop: true,
+      dragFree: true,
+      align: 'start',
+    },
+    [
+      AutoScroll({
+        speed: 1.6, // Mesma velocidade balanceada e fluida
+        startDelay: 0,
+        stopOnInteraction: false, // Ao soltar, volta a rodar automaticamente
+        stopOnMouseEnter: true, // Pausa ao passar o mouse
+      }),
+    ],
+  );
 
   return (
-    <section id="kit-description" className="py-16 md:py-24 bg-gradient-to-br from-indigo-800 to-slate-900 relative overflow-hidden">
-      {/* Diffuse cloud-like elements */}
-      <div className="absolute inset-0 opacity-10 filter blur-3xl pointer-events-none">
-        <div className="absolute top-[-15%] left-[-20%] w-[500px] h-[300px] bg-[radial-gradient(ellipse_at_center,theme(colors.sky.400)_0%,transparent_70%)] rounded-full animate-cloud-drift-slow"></div>
-        <div className="absolute top-[10%] right-[-25%] w-[600px] h-[350px] bg-[radial-gradient(ellipse_at_center,theme(colors.sky.400)_0%,transparent_75%)] rounded-full animate-cloud-drift-medium opacity-80"></div>
-        <div className="absolute bottom-[-10%] left-[5%] w-[450px] h-[250px] bg-[radial-gradient(ellipse_at_center,theme(colors.sky.400)_0%,transparent_65%)] rounded-full animate-cloud-drift-slow opacity-90"></div>
-        <div className="absolute bottom-[5%] right-[0%] w-[300px] h-[200px] bg-[radial-gradient(ellipse_at_center,theme(colors.sky.400)_0%,transparent_70%)] rounded-full animate-cloud-drift-medium"></div>
-      </div>
+    <section id="kit-description" className="relative overflow-hidden bg-sky-50 pt-16 md:pt-24 pb-0">
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          title={
+            <>
+              O Kit que estimula o <span className="text-sky-600 font-black">desenvolvimento das crianças autistas</span> e
+              facilita sua rotina em sala de aula
+            </>
+          }
+          subtitle="Mais de 1500 atividades inclusivas e adaptadas para crianças autistas, criadas para estimular o foco, a linguagem, a interação social e o desenvolvimento cognitivo."
+        />
 
-      {/* Shiny star-like elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[10%] left-[20%] w-1 h-1 bg-white rounded-full filter blur-[0.5px] animate-twinkle" style={{ animationDelay: '0s' }}></div>
-        <div className="absolute top-[25%] left-[85%] w-1.5 h-1.5 bg-sky-200 rounded-full filter blur-[1px] animate-twinkle" style={{ animationDelay: '0.5s' }}></div>
-        <div className="absolute top-[50%] left-[50%] w-0.5 h-0.5 bg-white rounded-full filter blur-[0.5px] animate-twinkle" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-[75%] left-[15%] w-1 h-1 bg-sky-300 rounded-full filter blur-[1px] animate-twinkle" style={{ animationDelay: '1.5s' }}></div>
-        <div className="absolute top-[80%] left-[90%] w-1.5 h-1.5 bg-white rounded-full filter blur-[1px] animate-twinkle" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-[5%] left-[60%] w-1 h-1 bg-sky-200 rounded-full filter blur-[0.5px] animate-twinkle" style={{ animationDelay: '2.5s' }}></div>
-        <div className="absolute top-[40%] left-[5%] w-1.5 h-1.5 bg-white rounded-full filter blur-[1px] animate-twinkle" style={{ animationDelay: '0.2s' }}></div>
-        <div className="absolute bottom-[10%] left-[70%] w-1 h-1 bg-sky-300 rounded-full filter blur-[1px] animate-twinkle" style={{ animationDelay: '3s' }}></div>
-        <div className="absolute top-[15%] left-[5%] w-0.5 h-0.5 bg-sky-100 rounded-full filter blur-[0.5px] animate-twinkle" style={{ animationDelay: '0.3s' }}></div>
-        <div className="absolute top-[30%] left-[70%] w-1 h-1 bg-white rounded-full filter blur-[0.8px] animate-twinkle" style={{ animationDelay: '0.8s' }}></div>
-        <div className="absolute top-[60%] left-[10%] w-1.5 h-1.5 bg-sky-200 rounded-full filter blur-[1px] animate-twinkle" style={{ animationDelay: '1.2s' }}></div>
-        <div className="absolute top-[85%] left-[55%] w-0.5 h-0.5 bg-white rounded-full filter blur-[0.5px] animate-twinkle" style={{ animationDelay: '1.8s' }}></div>
-        <div className="absolute top-[5%] left-[35%] w-1 h-1 bg-sky-300 rounded-full filter blur-[1px] animate-twinkle" style={{ animationDelay: '2.2s' }}></div>
-        <div className="absolute top-[65%] left-[95%] w-1 h-1 bg-white rounded-full filter blur-[0.5px] animate-twinkle" style={{ animationDelay: '2.8s' }}></div>
-        <div className="absolute bottom-[20%] right-[10%] w-0.5 h-0.5 bg-sky-200 rounded-full filter blur-[0.5px] animate-twinkle" style={{ animationDelay: '3.2s' }}></div>
-      </div>
-      
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-10">
-          <div className="mb-8 inline-block animate-screen-glow">
-            <Image
-              src="/images/children-studying.webp"
-              alt="Crianças estudando felizes"
-              data-ai-hint="children studying happy"
-              width={250}
-              height={167}
-              className="mx-auto"
-              loading="lazy"
-              sizes="250px"
-            />
-          </div>
-          <h2 className="font-merriweather text-2xl sm:text-3xl font-bold text-white mb-8">
-            O Kit que estimula o <span className="text-yellow-400">desenvolvimento das crianças autistas</span> e facilita sua rotina em sala de aula
-          </h2>
-        </div>
-        <div className="max-w-3xl mx-auto space-y-6 text-lg text-gray-300 text-center">
-          <p>
-            Mais de 1500 atividades inclusivas e adaptadas para crianças autistas, criadas para estimular o foco, a linguagem, a interação social e o desenvolvimento cognitivo.
+        <div className="mx-auto -mt-6 mb-10 flex max-w-2xl flex-col items-center gap-4 text-center">
+          <p className="text-ink-soft">
+            O material é 100% digital, disponível na nossa plataforma em PDF pronto para imprimir, para você usar
+            imediatamente em casa, na escola ou no consultório.
           </p>
-          <p>
-            O material é 100% digital, disponível na nossa plataforma em PDF pronto para imprimir, para você usar imediatamente em casa, na escola ou no consultório.
-          </p>
-          
-          <div ref={carouselRef} className="mt-8 md:mt-12 text-center">
-            <div className="inline-block bg-slate-800/30 p-4 rounded-2xl shadow-2xl shadow-sky-400/10">
-              <p className="text-center text-md text-gray-200 mt-2 mb-4">
-                🧩 Veja Algumas das Atividades Que Estão no Kit
-              </p>
-              <Carousel
-                setApi={setApi}
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto"
+          <div className="flex flex-wrap justify-center gap-2">
+            {places.map(({ icon: Icon, label }) => (
+              <span
+                key={label}
+                className="inline-flex items-center gap-1.5 rounded-full border border-sky-200 bg-white px-3 py-1.5 text-sm font-semibold text-ink"
               >
-                <CarouselContent>
-                  {carouselImages.map((image, index) => (
-                    <CarouselItem key={index} className="basis-full sm:basis-1/2">
-                      <div className="p-1">
-                        <Card className="overflow-hidden border-0 shadow-xl bg-transparent">
-                          <CardContent className="relative flex items-center justify-center p-0 aspect-[4/5]">
-                            <Image
-                              src={image.src}
-                              alt={image.alt}
-                              data-ai-hint={image.hint}
-                              width={312}
-                              height={390}
-                              className="object-cover rounded-lg h-auto w-full"
-                              sizes="(max-width: 640px) 90vw, 45vw"
-                              loading={index === 0 ? 'eager' : 'lazy'}
-                            />
-                          </CardContent>
-                        </Card>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious aria-label="Slide anterior" className="text-white bg-primary/50 hover:bg-primary/70 border-0 disabled:bg-slate-700/30 disabled:text-slate-400" />
-                <CarouselNext aria-label="Próximo slide" className="text-white bg-primary/50 hover:bg-primary/70 border-0 disabled:bg-slate-700/30 disabled:text-slate-400" />
-              </Carousel>
-              {api && count > 0 && (
-                <div className="flex justify-center items-center space-x-2 mt-4 py-2">
-                  {Array.from({ length: count }).map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleDotClick(index)}
-                      className={cn(
-                        "h-2 w-2 rounded-full transition-all duration-150 ease-in-out",
-                        current === index ? "bg-white scale-110" : "bg-white/40 hover:bg-white/70"
-                      )}
-                      aria-label={`Ir para slide ${index + 1}`}
+                <Icon className="h-4 w-4 text-sky-600" aria-hidden="true" />
+                {label}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="mx-auto mb-6 sm:mb-8 max-w-lg text-center font-display text-lg font-extrabold leading-snug tracking-tight text-ink sm:text-xl md:text-2xl">
+            Veja algumas das atividades <br />
+            que estão <span className="text-sky-600">no kit</span>
+          </h3>
+
+          {/* Carrossel contínuo interativo: arrastável com dedo no celular e mouse no computador */}
+          <div
+            ref={emblaRef}
+            className="cursor-grab active:cursor-grabbing overflow-hidden py-3 select-none"
+            aria-label="Carrossel de prévia das atividades"
+          >
+            <div className="flex touch-pan-y gap-4 sm:gap-5">
+              {activityImages.map((src, index) => (
+                <div
+                  key={`${src}-${index}`}
+                  className="shrink-0 overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-2.5 shadow-sm shadow-slate-900/5 transition-transform duration-200 hover:-translate-y-1 hover:shadow-md"
+                >
+                  <div className="relative aspect-[3/4] w-[210px] overflow-hidden rounded-xl bg-slate-100 sm:w-[260px] md:w-[290px]">
+                    <Image
+                      src={src}
+                      alt="Exemplo de atividade inclusiva"
+                      fill
+                      className="object-cover pointer-events-none select-none"
+                      sizes="(max-width: 640px) 210px, (max-width: 768px) 260px, 290px"
+                      loading={index < 4 ? 'eager' : 'lazy'}
+                      draggable={false}
                     />
-                  ))}
+                  </div>
                 </div>
-              )}
-               <p className="text-center text-md text-gray-300 mt-6 mb-4">
-                Essas são apenas algumas das <span className="text-yellow-400 font-bold">mais de 1500 atividades exclusivas</span> que você recebe na Plataforma Gêniozinho em Ação!
-              </p>
+              ))}
             </div>
           </div>
 
+          <p className="mx-auto mt-8 max-w-xl text-center text-ink-soft">
+            Essas são apenas algumas das{' '}
+            <strong className="text-ink">mais de 1500 atividades exclusivas</strong> que você recebe na Plataforma
+            Gêniozinho em Ação!
+          </p>
         </div>
+
         <div className="mt-10 flex justify-center">
-          <Button
-            size="lg"
-            asChild
-            className="shadow-lg hover:shadow-xl bg-yellow-400 hover:bg-yellow-500 text-black font-semibold animate-pulse-yellow-cta transition-shadow"
-          >
-            <Link href="#oferta-especial">
-              ACESSAR MATERIAL AGORA!
-            </Link>
-          </Button>
+          <CtaButton href="#oferta-especial" size="lg" pulse>
+            Quero acessar o material agora!
+          </CtaButton>
         </div>
       </div>
+      <BottomWaveDivider className="text-[#F1F5F9] mt-12 md:mt-16" />
     </section>
   );
 }
