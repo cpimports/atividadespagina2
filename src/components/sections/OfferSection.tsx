@@ -68,9 +68,9 @@ const AnimatedClock = ({ className = 'h-5 w-5' }: { className?: string }) => (
 );
 
 export default function OfferSection({
-  price = '19,90',
-  installmentText = 'ou 4x de R$5,77',
-  checkoutUrl = 'https://pay.cakto.com.br/3bbibtq',
+  price = '19,75',
+  installmentText = 'ou 4x de R$5,73',
+  checkoutUrl = 'https://loja.geniozinhoemacao.com.br/checkout/v4/WbE0rP04SZDO0RPFaY8D',
 }: OfferSectionProps) {
   return (
     <section id="oferta-especial" className="bg-paper-grid pt-16 md:pt-24 pb-0">
@@ -91,10 +91,7 @@ export default function OfferSection({
 
         {/* Card Escuro Unificado Premium */}
         <div className="relative mx-auto mt-6 max-w-5xl overflow-hidden rounded-[2.5rem] border-2 border-marker/40 bg-ink shadow-[0_20px_50px_rgba(27,42,74,0.35)]">
-          {/* Badge superior de destaque */}
-          <div className="absolute right-6 top-0 hidden -translate-y-1/2 rounded-full border border-marker/60 bg-gradient-to-r from-marker via-amber-400 to-marker px-4 py-1.5 text-xs font-black uppercase tracking-wider text-ink shadow-lg sm:block">
-            ⚡ Desconto Ativo Agora
-          </div>
+
 
           <div className="grid grid-cols-1 gap-8 p-6 sm:p-10 lg:grid-cols-12 lg:gap-10 lg:p-12">
             {/* Lado Esquerdo: O que está incluso (Design Dark Premium) */}

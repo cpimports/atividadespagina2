@@ -54,12 +54,18 @@ export default function UTMHandler({ checkoutDomains }: UTMHandlerProps) {
     // 1. Captura e armazena os UTMs
     translateAndStoreUtms();
 
-    // 2. Anexa os UTMs salvos aos links e observa mudanças dinâmicas na página
-    const observer = new MutationObserver(() => {
-      attachUtmsToCheckoutLinks(checkoutDomains);
-    });
+    // 2. Anexa os UTMs salvos aos links e observa mudanças dinâmicas na página com debounce
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    const debouncedAttach = () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        attachUtmsToCheckoutLinks(checkoutDomains);
+      }, 150);
+    };
 
     attachUtmsToCheckoutLinks(checkoutDomains);
+
+    const observer = new MutationObserver(debouncedAttach);
 
     observer.observe(document.body, {
       childList: true,
@@ -67,6 +73,7 @@ export default function UTMHandler({ checkoutDomains }: UTMHandlerProps) {
     });
 
     return () => {
+      if (timeoutId) clearTimeout(timeoutId);
       observer.disconnect();
     };
 

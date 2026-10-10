@@ -27,8 +27,20 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.geniozinhoemacao.com.br'),
   title: 'Gêniozinho em Ação - Atividades Educativas para Crianças',
   description: 'Kit completo de atividades educativas e interativas, prontas para aplicar em casa ou na escola, e transformar a rotina de aprendizado de crianças com estilos únicos de aprendizagem e atenção.',
+  alternates: {
+    canonical: 'https://www.geniozinhoemacao.com.br/oferta',
+  },
+  openGraph: {
+    title: 'Gêniozinho em Ação - Atividades Educativas para Crianças',
+    description: 'Kit completo de atividades educativas e interativas, prontas para aplicar em casa ou na escola.',
+    url: 'https://www.geniozinhoemacao.com.br/oferta',
+    siteName: 'Gêniozinho em Ação',
+    locale: 'pt_BR',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
@@ -39,20 +51,15 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${inter.variable} ${alegreya.variable} ${nunito.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="preload" href="https://scripts.converteai.net/f304b502-422a-4d15-8f6c-5e42de7baf1b/players/68a677e85a4844a26844462d/v4/embed.html" />
-        <script dangerouslySetInnerHTML={{ __html: `!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);` }} />
-        <link rel="preload" href="https://scripts.converteai.net/f304b502-422a-4d15-8f6c-5e42de7baf1b/players/68a677e85a4844a26844462d/v4/player.js" as="script" />
-        <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" />
-        <link rel="preload" href="https://cdn.converteai.net/f304b502-422a-4d15-8f6c-5e42de7baf1b/68a677ca758079d62739838e/main.m3u8" as="fetch" />
-        <link rel="dns-prefetch" href="https://cdn.converteai.net" />
-        <link rel="dns-prefetch" href="https://scripts.converteai.net" />
-        <link rel="dns-prefetch" href="https://images.converteai.net" />
-        <link rel="dns-prefetch" href="https://api.vturb.com.br" />
-        
-        {/* Preconnect to critical third-party origins */}
-        <link rel="preload" href="/images/logo.webp" as="image" />
-        <link rel="preconnect" href="https://cdn.utmify.com.br" />
-        <link rel="preconnect" href="https://scripts.converteai.net" />
+        {/* Preconnect e DNS-Prefetch do domínio de checkout para carregamento imediato */}
+        <link rel="preconnect" href="https://loja.geniozinhoemacao.com.br" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://loja.geniozinhoemacao.com.br" />
+        <link rel="preconnect" href="https://cdn.utmify.com.br" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdn.utmify.com.br" />
+
+        {/* Pré-carregamento dos elementos visuais críticos acima da dobra */}
+        <link rel="preload" href="/images/logo.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/images/hero-activities-kit.webp" as="image" type="image/webp" />
 
         {/* UTMify Pixel Loader */}
         <Script id="utmify-pixel-loader" strategy="lazyOnload">
@@ -75,27 +82,58 @@ export default function RootLayout({
         {/* Configurado para capturar UTMs tanto da página principal quanto da página de oferta */}
         <UTMHandler checkoutDomains={["pay.cakto.com.br", "loja.geniozinhoemacao.com.br"]} />
         
-        {/* InitiateCheckout Event Script for UTMify */}
+        {/* InitiateCheckout Event Script for UTMify & Ultra-Fast Checkout Navigation */}
         <Script id="initiate-checkout-tracker" strategy="lazyOnload">
           {`
-            document.addEventListener('click', function(e) {
-              const checkoutButton = e.target && e.target.closest('#btn-comprar');
-              if (checkoutButton) {
-                e.preventDefault(); // Stop the default link navigation
+            (function() {
+              const defaultCheckout = "https://loja.geniozinhoemacao.com.br/checkout/v4/WbE0rP04SZDO0RPFaY8D";
 
-                // Track the event with UTMify
-                if (window.utmify_pixel && typeof window.utmify_pixel.track === 'function') {
-                  window.utmify_pixel.track('InitiateCheckout');
-                }
-
-                const finalUrl = checkoutButton.href;
-
-                // Redirect manually after a short delay to ensure the tracking event is sent
-                setTimeout(() => {
-                  window.location.href = finalUrl;
-                }, 500); // 500ms delay
+              function prefetchCheckout(url) {
+                if (window._checkoutPrefetched) return;
+                window._checkoutPrefetched = true;
+                const link = document.createElement('link');
+                link.rel = 'prefetch';
+                link.href = url || defaultCheckout;
+                document.head.appendChild(link);
               }
-            }, true);
+
+              // Inicia conexão assim que o usuário aproxima o mouse ou toca na tela
+              document.addEventListener('mouseover', function(e) {
+                const btn = e.target && e.target.closest('#btn-comprar, a[href*="loja.geniozinhoemacao.com.br"]');
+                if (btn) prefetchCheckout(btn.href);
+              }, { passive: true });
+
+              document.addEventListener('touchstart', function(e) {
+                const btn = e.target && e.target.closest('#btn-comprar, a[href*="loja.geniozinhoemacao.com.br"]');
+                if (btn) prefetchCheckout(btn.href);
+              }, { passive: true });
+
+              // Clique no botão de compra: resposta imediata
+              document.addEventListener('click', function(e) {
+                const checkoutButton = e.target && e.target.closest('#btn-comprar, a[href*="loja.geniozinhoemacao.com.br"]');
+                if (checkoutButton) {
+                  e.preventDefault();
+
+                  // Resposta visual imediata ao clique
+                  checkoutButton.style.opacity = '0.85';
+                  checkoutButton.style.pointerEvents = 'none';
+
+                  // Dispara o tracking sem travar o usuário
+                  if (window.utmify_pixel && typeof window.utmify_pixel.track === 'function') {
+                    try {
+                      window.utmify_pixel.track('InitiateCheckout');
+                    } catch (_) {}
+                  }
+
+                  const finalUrl = checkoutButton.href || defaultCheckout;
+
+                  // Navegação rápida sem delay perceptível (40ms para envio assíncrono seguro)
+                  setTimeout(() => {
+                    window.location.href = finalUrl;
+                  }, 40);
+                }
+              }, true);
+            })();
           `}
         </Script>
       </body>
