@@ -16,14 +16,14 @@ import DynamicCounterBanner from '@/components/shared/DynamicCounterBanner';
 import { SectionHeading, BottomCurveDivider } from '@/components/landing/ui';
 
 const hostedVideos = [
-  { videoUrl: '/oferta2/videos/DEPOIMENTO-PROFESSORA.mp4', title: 'Depoimento Professora' },
-  { videoUrl: '/oferta2/videos/Depoimento Professora Nilva.mp4', title: 'Depoimento Professora Nilva' },
-  { videoUrl: '/oferta2/videos/DEPOIMENTO-ELIANE.mp4', title: 'Depoimento Eliane' },
-  { videoUrl: '/oferta2/videos/DEPOIMENTO-THIAGO.mp4', title: 'Depoimento Thiago' },
-  { videoUrl: '/oferta2/videos/DEPOIMENTO-CAMILA.mp4', title: 'Depoimento Camila' },
-  { videoUrl: '/oferta2/videos/DEPOIMENTO-SILVANA.mp4', title: 'Depoimento Silvana' },
-  { videoUrl: '/oferta2/videos/DEPOIMENTO-GABRIELE.mp4', title: 'Depoimento Gabriele' },
-  { videoUrl: '/oferta2/videos/DEPOIMENTO-MARIA.mp4', title: 'Depoimento Maria' },
+  { videoUrl: '/videos/DEPOIMENTO-PROFESSORA.mp4', title: 'Depoimento Professora' },
+  { videoUrl: '/videos/Depoimento Professora Nilva.mp4', title: 'Depoimento Professora Nilva' },
+  { videoUrl: '/videos/DEPOIMENTO-ELIANE.mp4', title: 'Depoimento Eliane' },
+  { videoUrl: '/videos/DEPOIMENTO-THIAGO.mp4', title: 'Depoimento Thiago' },
+  { videoUrl: '/videos/DEPOIMENTO-CAMILA.mp4', title: 'Depoimento Camila' },
+  { videoUrl: '/videos/DEPOIMENTO-SILVANA.mp4', title: 'Depoimento Silvana' },
+  { videoUrl: '/videos/DEPOIMENTO-GABRIELE.mp4', title: 'Depoimento Gabriele' },
+  { videoUrl: '/videos/DEPOIMENTO-MARIA.mp4', title: 'Depoimento Maria' },
 ];
 
 const commentsData = [

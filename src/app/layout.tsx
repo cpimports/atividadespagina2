@@ -58,8 +58,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://cdn.utmify.com.br" />
 
         {/* Pré-carregamento dos elementos visuais críticos acima da dobra */}
-        <link rel="preload" href="/oferta2/images/logo.webp" as="image" type="image/webp" />
-        <link rel="preload" href="/oferta2/images/hero-activities-kit.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/images/logo.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/images/hero-activities-kit.webp" as="image" type="image/webp" />
 
         {/* UTMify Pixel Loader */}
         <Script id="utmify-pixel-loader" strategy="lazyOnload">
