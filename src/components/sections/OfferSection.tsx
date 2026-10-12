@@ -68,8 +68,8 @@ const AnimatedClock = ({ className = 'h-5 w-5' }: { className?: string }) => (
 );
 
 export default function OfferSection({
-  price = '19,75',
-  installmentText = 'ou 4x de R$5,73',
+  price = '19,76',
+  installmentText = 'ou 4x de R$5,66',
   checkoutUrl = 'https://loja.geniozinhoemacao.com.br/checkout/v4/WbE0rP04SZDO0RPFaY8D',
 }: OfferSectionProps) {
   return (
